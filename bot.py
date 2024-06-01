@@ -2,6 +2,7 @@ from openai import OpenAI
 from fastapi import FastAPI, Form, Request, WebSocket
 from typing import Annotated
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from config import settings
 
@@ -15,6 +16,7 @@ chat_log.append(system_message)
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+static = app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/", response_class=HTMLResponse)
