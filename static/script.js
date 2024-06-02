@@ -1,4 +1,12 @@
-var ws = new WebSocket("ws://localhost:8000/ws");
+var WebSocketString = "";
+
+if (window.location.hostname == "127.0.0.1") {
+  WebSocketString = "ws://localhost:8000/ws";
+} else {
+  WebSocketString = "wss://${window.location.hostname}$/ws";
+}
+
+var ws = new WebSocket(WebSocketString);
 var sendButton = document.getElementById("sendButton");
 var userInput = document.getElementById("userInput");
 var chatHistory = document.getElementById("chatHistory");
