@@ -36,16 +36,21 @@ async def chat(websocket: WebSocket):
       response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=chat_log,
-        temperature=0.6
+        temperature=0.6,
+        stream=True
       )
-      bot_response = response.choices[0].message.content
-      chat_log.append({"role": "assistant", "content": bot_response})
-      chat_responses.append(bot_response)
-      await websocket.send_text(bot_response)
+
+      ai_response = ''
+
+      for chunk in response:
+        if chunk.choices[0].delta.content is not None:
+          ai_response += chunk.choices[0].delta.content
+          await websocket.send_text(chunk.choices[0].delta.content)
+      chat_responses.append(ai_response)
 
     except Exception as e:
-      await websocket.send_text(f"Error: {e}")
-      break
+      await websocket.send_text(f"Error: {str(e)}")
+      break 
 
 # @app.post("/", response_class=HTMLResponse)
 # async def chat(request: Request, user_input: Annotated[str, Form()]):
