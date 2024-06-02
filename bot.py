@@ -8,10 +8,11 @@ from config import settings
 
 client = OpenAI(api_key = settings.openai_api_key)
 
+data:str = open("data.txt", "r").read()
 chat_log = []
 chat_responses = []
 system_message = {"role": "system",
-      "content": "You are a helpful assistant named Jarvis"}
+      "content": "You are a fitness advisor named Jarvis. Use these data as a reference for tricep exercises: f{data}"}
 chat_log.append(system_message)
 
 app = FastAPI()
