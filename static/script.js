@@ -1,6 +1,6 @@
 var WebSocketString = "";
 if (window.location.hostname == '127.0.0.1') {
-  WebSocketString = "ws://localhost:4000/ws";
+  WebSocketString = "ws://localhost:8000/ws";
 } else {
   WebSocketString = "wss://${window.location.hostname}/ws";
 }
